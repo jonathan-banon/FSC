@@ -57,12 +57,8 @@ final class UserController extends AbstractController
     #[Route('/getAllUsers', name: 'get_allusers', methods: 'GET')]
     public function getAllUsers(): Response
     {
+        $users = $this->user->findAll();
 
-        return new JsonResponse(
-            [
-                'status' => true,
-                'users' => $this->user->findAll()
-            ]
-        );
+        return $this->json($users);
     }
 }
