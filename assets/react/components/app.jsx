@@ -1,9 +1,9 @@
 import React from 'react';
 
+
 const App = () => {
     return (
-        <div>
-            <h1>Hy React</h1>
+        <div className="home-bg">
         </div>
     );
 };
