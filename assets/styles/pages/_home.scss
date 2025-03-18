@@ -1,0 +1,13 @@
+.bg-home {
+    background-image: url('/assets/images/bg.jpg');
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+
+    .form-login {
+        height: 20vh;
+        background-color: $color-0-1;
+        padding: 10px;
+        border-radius: 10px;
+    }
+}
