@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 final class UserController extends AbstractController
 {
     private $manager;
@@ -23,10 +23,9 @@ final class UserController extends AbstractController
     }
 
     #[Route('/api/userCreate', name: 'app_user', methods: ['POST'])]
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        dump($data);
         if (!$data) {
             return new JsonResponse(
                 ['status' => false, 'message' => 'Requête invalide, JSON manquant'],
@@ -53,7 +52,9 @@ final class UserController extends AbstractController
 
         $user = new User();
         $user->setEmail($email);
-        $user->setPassword(sha1($password));
+
+        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
 
         $this->manager->persist($user);
         $this->manager->flush();

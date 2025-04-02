@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 const Login = () => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    const [message, setMessage] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+    };
     return (
         <div className='d-flex justify-content-center align-items-center bg-home'>
             <form className='form-login'>
