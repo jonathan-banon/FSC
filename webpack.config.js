@@ -1,7 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
@@ -11,15 +10,8 @@ Encore
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
     .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
-    //.setManifestKeyPrefix('build/')
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-     */
+    // ENTRY CONFIG
     .addEntry('app', './assets/react/index.js')
     .addStyleEntry('styles', './assets/styles/styles.scss')
 
@@ -27,48 +19,75 @@ Encore
     .splitEntryChunks()
 
     // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
 
-    /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
+    // FEATURE CONFIG
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
-    // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
+    // CSS Configuration
+    .configureCssLoader(options => {
+        options.sourceMap = true;
+    })
 
-    // enables and configure @babel/preset-env polyfills
+    // Babel configuration
+    .configureBabel((config) => {
+        if (Encore.isDev()) {
+            config.cacheDirectory = true;
+            config.cacheCompression = false;
+        }
+    })
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = '3.38';
     })
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
+    // Sass configuration améliorée
+    .enableSassLoader((options) => {
+        options.sourceMap = true;
+        options.sassOptions = {
+            outputStyle: Encore.isProduction() ? 'compressed' : 'expanded',
+            sourceMap: true
+        };
+    })
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
-
-    // uncomment if you use React
+    // React support
     .enableReactPreset()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+    // Configuration du mode watch améliorée
+    .configureWatchOptions(watchOptions => {
+        watchOptions.poll = 1000; // Polling toutes les secondes
+        watchOptions.aggregateTimeout = 300; // Délai avant recompilation
+        watchOptions.ignored = /node_modules/; // Ignorer node_modules
+    })
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    // Configuration du dev-server
+    .configureDevServerOptions(options => {
+        options.allowedHosts = 'all';
+        options.hot = true;
+        options.liveReload = true;
+        options.watchFiles = {
+            paths: ['assets/**/*', 'templates/**/*.twig'],
+            options: {
+                usePolling: true,
+                interval: 1000
+            }
+        };
+        options.client = {
+            overlay: {
+                errors: true,
+                warnings: false
+            }
+        };
+    })
 ;
+
+// Debug en mode développement
+if (Encore.isDev()) {
+    console.log('🔍 Mode développement activé');
+    console.log('📁 Surveillance des fichiers:', ['assets/**/*', 'templates/**/*.twig']);
+}
 
 module.exports = Encore.getWebpackConfig();
