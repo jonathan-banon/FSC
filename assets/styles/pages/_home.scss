@@ -5,8 +5,13 @@
     background-size: cover;
 
     .form-login {
+        display: flex;
+        flex-direction: column;
         background-color: $color-0-1;
         padding: 10px;
         border-radius: 10px;
+        width: 20%;
+        height: 70vh;
+        gap: 20%;
     }
 }

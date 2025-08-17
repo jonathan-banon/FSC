@@ -7,6 +7,11 @@
 @import "components/form-input";
 
 // layouts
+* {
+    font-family: Raleway, sans-serif;
+}
+
+
 
 // pages
 @import "pages/home.scss";

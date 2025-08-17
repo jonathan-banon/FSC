@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import logoFsc from '../../images/logo-fsc.png';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -33,57 +34,58 @@ const Login = () => {
     };
     return (
         <div className='d-flex justify-content-center align-items-center min-vh-100 bg-home p-3'>
-            <div className='col-12'>
-                <form className='form-login' onSubmit={handleSubmit}>
-                    <div className='d-flex flex-column'>
-                        <h2 className='text-center mb-4 text-primary h3'>ESPACE TOURNOI</h2>
-
-                        <div className="did-floating-label-content mb-3">
-                            <input
-                                type="email"
-                                className="did-floating-input"
-                                placeholder=" "
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                            <label className="did-floating-label">Email</label>
-                        </div>
-
-                        <div className="did-floating-label-content mb-3">
-                            <input
-                                type="password"
-                                className="did-floating-input"
-                                placeholder=" "
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                            <label className="did-floating-label">Mot de passe</label>
-                        </div>
-
-                        {message && (
-                            <div className="alert alert-info text-center mb-3" role="alert">
-                                {message}
-                            </div>
-                        )}
-
-                        <div className='d-grid gap-3'>
-                            <button type="submit" className="btn btn-primary btn-lg">
-                                Se connecter
-                            </button>
-                            <div className="text-center">
-                                <span className="text-muted small">Pas encore de compte ? </span>
-                                <Link to="/signIn" className="text-decoration-none fw-semibold">
-                                    S'inscrire
-                                </Link>
-                            </div>
-                        </div>
+            <form className='form-login' onSubmit={handleSubmit}>
+                <div className='d-flex align-items-center'>
+                    <img src={logoFsc} alt="Logo" className="img-fluid" />
+                    <h2 className='text-center text-dark fw-bold fs-4 w-100'>ESPACE TOURNOI</h2>
+                </div>
+                <div>
+                    <div className="did-floating-label-content mb-4">
+                        <input
+                            type="email"
+                            className="did-floating-input"
+                            placeholder=" "
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                        <label className="did-floating-label">Email</label>
                     </div>
-                </form>
-            </div>
+
+                    <div className="did-floating-label-content mb-4">
+                        <input
+                            type="password"
+                            className="did-floating-input"
+                            placeholder=" "
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <label className="did-floating-label">Mot de passe</label>
+                    </div>
+
+                    {message && (
+                        <div className="alert alert-info text-center mb-3" role="alert">
+                            {message}
+                        </div>
+                    )}
+                </div>
+
+                <div className='d-grid gap-3'>
+                    <button type="submit" className="btn btn-primary btn-lg">
+                        Se connecter
+                    </button>
+                    <div className="text-center">
+                        <span className="text-muted small">Pas encore de compte ? </span>
+                        <Link to="/signIn" className="text-decoration-none fw-semibold">
+                            S'inscrire
+                        </Link>
+                    </div>
+                </div>
+
+            </form>
         </div>
     );
 };
