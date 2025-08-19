@@ -40,7 +40,7 @@ const Login = () => {
                     <h2 className='text-center text-dark fw-bold fs-4 w-100'>ESPACE TOURNOI</h2>
                 </div>
                 <div>
-                    <div className="did-floating-label-content mb-4">
+                    <div className="did-floating-label-content mb-5">
                         <input
                             type="email"
                             className="did-floating-input"
@@ -53,7 +53,7 @@ const Login = () => {
                         <label className="did-floating-label">Email</label>
                     </div>
 
-                    <div className="did-floating-label-content mb-4">
+                    <div className="did-floating-label-content">
                         <input
                             type="password"
                             className="did-floating-input"
@@ -73,16 +73,12 @@ const Login = () => {
                     )}
                 </div>
 
-                <div className='d-grid gap-3'>
-                    <button type="submit" className="btn btn-primary btn-lg">
-                        Se connecter
-                    </button>
-                    <div className="text-center">
-                        <span className="text-muted small">Pas encore de compte ? </span>
-                        <Link to="/signIn" className="text-decoration-none fw-semibold">
-                            S'inscrire
-                        </Link>
-                    </div>
+
+                <div className="d-grid gap-2">
+                    <button className="bg-dark rounded-pill  text-white mb-3" type="submit">Me connecter</button>
+                    <Link to="/signIn" className='text-center'>
+                        <button className="bg-white rounded-pill" type="button"> M'inscrire</button>
+                    </Link>
                 </div>
 
             </form>
